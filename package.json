@@ -19,8 +19,10 @@
   "homepage": "https://github.com/SuryankDixit/Authentication-Security#readme",
   "dependencies": {
     "body-parser": "^1.19.0",
+    "dotenv": "^8.2.0",
     "ejs": "^3.1.5",
     "express": "^4.17.1",
-    "mongoose": "^5.10.9"
+    "mongoose": "^5.10.9",
+    "mongoose-encryption": "^2.0.2"
   }
 }

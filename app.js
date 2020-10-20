@@ -1,7 +1,9 @@
+require('dotenv').config();
 const express = require("express");
 const ejs = require("ejs");
 const mongoose = require("mongoose");
 const bodyparser = require("body-parser");
+const encrypt = require("mongoose-encryption");
 
 const app = express();
 app.set('view engine', 'ejs');
@@ -21,10 +23,19 @@ db.on('error', console.error.bind(console, 'MongoDB connection error:'));
 db.on('error', console.error.bind(console, 'MongoDB connection error:'));
 
 
-const userSchema = mongoose.Schema({
+const userSchema = new mongoose.Schema({
     email: String,
     password: String
 });
+
+
+// encrypts data when we save() in DB
+// Decrypts data when we call find()
+
+// Read what are plugins;
+// secret is declared in .env file
+userSchema.plugin(encrypt, { secret: process.env.SECRET, encryptedFields: ["password"] });
+
 const User = new mongoose.model("User", userSchema);
 
 
@@ -87,10 +98,7 @@ app.post("/login", function(req, res) {
 
 
 
-
-
-
 const port = 3000;
 app.listen(process.env.PORT || port, function() {
     console.log(`Server started on port ${port}.`);
-})
+});
